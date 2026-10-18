@@ -1,0 +1,20 @@
+const mongoose = require('mongoose');
+
+const connectDB = async () => {
+  try {
+    const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
+    if (!mongoUri) {
+      console.warn("MongoDB connection string (MONGODB_URI or MONGO_URI) is not defined. Please set it in your environment variables.");
+      process.exit(1);
+    }
+    const conn = await mongoose.connect(mongoUri, {
+      dbName: 'noteassist'
+    });
+    console.log(`MongoDB Connected: ${conn.connection.host} | Database: ${conn.connection.name}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
